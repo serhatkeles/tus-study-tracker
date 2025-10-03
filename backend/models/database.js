@@ -1,35 +1,41 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const { Pool } = require('pg');
 
-const DB_PATH = process.env.DB_PATH || './db/study_tracker.db';
+// PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
-const db = new sqlite3.Database(DB_PATH, (err) => {
+// Test connection
+pool.query('SELECT NOW()', (err, res) => {
   if (err) {
-    console.error('❌ Database bağlantı hatası:', err.message);
+    console.error('❌ Database connection error:', err);
   } else {
-    console.log('✅ SQLite database\'e bağlanıldı:', DB_PATH);
+    console.log('✅ PostgreSQL connected:', res.rows[0].now);
   }
 });
 
-const initializeDatabase = () => {
-  db.run(`
+// Initialize tables
+const initializeDatabase = async () => {
+  const createTableQuery = `
     CREATE TABLE IF NOT EXISTS entries (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      date TEXT NOT NULL,
-      subject TEXT NOT NULL,
-      hours REAL NOT NULL,
+      id SERIAL PRIMARY KEY,
+      date DATE NOT NULL,
+      subject VARCHAR(255) NOT NULL,
+      hours DECIMAL(5,2) NOT NULL,
       file_link TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-  `, (err) => {
-    if (err) {
-      console.error('❌ Tablo oluşturma hatası:', err.message);
-    } else {
-      console.log('✅ Entries tablosu hazır');
-    }
-  });
+  `;
+
+  try {
+    await pool.query(createTableQuery);
+    console.log('✅ Entries table ready');
+  } catch (err) {
+    console.error('❌ Table creation error:', err);
+  }
 };
 
 initializeDatabase();
 
-module.exports = db;
+module.exports = pool;
