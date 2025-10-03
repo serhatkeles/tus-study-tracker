@@ -35,7 +35,7 @@ const Dashboard = () => {
 
       setEntries(entriesData.entries || []);
       setWeeklySummary(summaryData.summary || []);
-      setTotalHours(totalData.totalHours || 0);
+      setTotalHours(parseFloat(totalData.totalHours) || 0);
       setSubjects(subjectsData);
       setStats(statsData.stats || {});
       setError('');
@@ -76,7 +76,7 @@ const Dashboard = () => {
   }
 
   return (
-    <Box sx={{ minHeight: 'calc(100vh - 64px)', pb: { xs: 4, md: 6 }, px: { xs: 2, sm: 3, md: 4 } }}>
+    <Box sx={{ minHeight: 'calc(100vh - 64px)', pb: { xs: 8, md: 6 }, px: { xs: 2, sm: 3, md: 4 } }}>
       <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box sx={{ mb: { xs: 2, md: 4 }, textAlign: 'center' }}>
@@ -107,10 +107,20 @@ const Dashboard = () => {
         <Box sx={{ mb: { xs: 2, md: 4 } }}>
           <Grid container spacing={{ xs: 2, md: 3 }}>
             <Grid item xs={12} sm={6} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-              <StatCard title="Toplam Çalışma Saati" value={`${totalHours.toFixed(1)} saat`} icon="⏱️" color="primary" />
+              <StatCard 
+                title="Toplam Çalışma Saati" 
+                value={`${(totalHours || 0).toFixed(1)} saat`} 
+                icon="⏱️" 
+                color="primary" 
+              />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <StatCard title="Toplam Kayıt" value={entries.length} icon="📝" color="secondary" />
+            <Grid item xs={12} sm={6} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+              <StatCard 
+                title="Toplam Kayıt" 
+                value={entries.length || 0} 
+                icon="📝" 
+                color="secondary" 
+              />
             </Grid>
           </Grid>
         </Box>
@@ -121,7 +131,7 @@ const Dashboard = () => {
             {subjects && <TUSEntryForm subjects={subjects} stats={stats} onSubmit={handleEntryAdded} />}
           </Grid>
           <Grid item xs={12} lg={6} sx={{ width: { xs: '100%', lg: 'auto' } }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 3 }, width: '100%' }}>
               <WeeklySummary summary={weeklySummary} />
               <EntryList entries={entries} onDelete={handleDelete} />
             </Box>

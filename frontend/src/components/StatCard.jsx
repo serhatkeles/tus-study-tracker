@@ -7,6 +7,9 @@ const StatCard = ({ title, value, icon, color = 'primary' }) => {
     secondary: 'linear-gradient(135deg, #9c27b0 0%, #ba68c8 100%)',
   };
 
+  // Ensure value is always a valid string
+  const displayValue = value !== null && value !== undefined ? value : '0';
+
   return (
     <Card
       elevation={0}
@@ -25,7 +28,7 @@ const StatCard = ({ title, value, icon, color = 'primary' }) => {
           </Typography>
           <Box>
             <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
-              {value}
+              {displayValue}
             </Typography>
             <Typography variant="body1" sx={{ opacity: 0.9, fontSize: { xs: '0.875rem', md: '1rem' } }}>
               {title}
