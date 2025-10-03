@@ -38,7 +38,7 @@ const WeeklySummary = ({ summary }) => {
     );
   }
 
-  const totalWeeklyHours = summary.reduce((sum, item) => sum + item.total_hours, 0);
+  const totalWeeklyHours = summary.reduce((sum, item) => sum + (parseFloat(item.total_hours) || 0), 0);
 
   return (
     <Card
@@ -56,7 +56,7 @@ const WeeklySummary = ({ summary }) => {
             📊 Haftalık Özet
           </Typography>
           <Chip
-            label={`${totalWeeklyHours.toFixed(1)} saat`}
+            label={`${(totalWeeklyHours || 0).toFixed(1)} saat`}
             sx={{
               fontWeight: 'bold',
               background: 'linear-gradient(45deg, #4caf50 30%, #81c784 90%)',
