@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Environment variables
+.env
+backend/.env
+frontend/.env
+
+# Database
+backend/db/*.db
+backend/db/*.db-shm
+backend/db/*.db-wal
+
+# Build files
+frontend/build/
+frontend/.next/
+
+# OS files
+.DS_Store
+*.log
