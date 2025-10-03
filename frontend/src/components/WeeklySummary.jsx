@@ -104,7 +104,7 @@ const WeeklySummary = ({ summary }) => {
                     />
                   </TableCell>
                   <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>
-                    {item.total_hours.toFixed(1)}h
+                    {(parseFloat(item.total_hours) || 0).toFixed(1)}h
                   </TableCell>
                 </TableRow>
               ))}

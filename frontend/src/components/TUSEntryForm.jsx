@@ -98,7 +98,7 @@ const TUSEntryForm = ({ subjects, stats, onSubmit }) => {
                   {subjectStats.total > 0 && (
                     <Chip
                       icon={<TrendingUpIcon />}
-                      label={`${subjectStats.weekly.toFixed(1)}h`}
+                      label={`${(subjectStats.weekly || 0).toFixed(1)}h`}
                       size="small"
                       sx={{
                         background: 'linear-gradient(45deg, #4caf50 30%, #81c784 90%)',
@@ -113,7 +113,7 @@ const TUSEntryForm = ({ subjects, stats, onSubmit }) => {
                 {/* İstatistikler */}
                 <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                   <Chip
-                    label={`Bu Hafta: ${subjectStats.weekly.toFixed(1)} saat`}
+                    label={`Bu Hafta: ${(subjectStats.weekly || 0).toFixed(1)} saat`}
                     size="small"
                     sx={{
                       bgcolor: 'rgba(76, 175, 80, 0.2)',
@@ -123,7 +123,7 @@ const TUSEntryForm = ({ subjects, stats, onSubmit }) => {
                     }}
                   />
                   <Chip
-                    label={`Toplam: ${subjectStats.total.toFixed(1)} saat`}
+                    label={`Toplam: ${(subjectStats.total || 0).toFixed(1)} saat`}
                     size="small"
                     sx={{
                       bgcolor: 'rgba(33, 150, 243, 0.2)',
