@@ -7,7 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://tus-study-tracker.vercel.app',
+    process.env.FRONTEND_URL
+  ],
   credentials: true
 }));
 app.use(express.json());
