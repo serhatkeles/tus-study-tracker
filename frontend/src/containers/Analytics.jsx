@@ -53,8 +53,9 @@ const Analytics = () => {
       });
 
       entries.forEach(entry => {
-        if (dailyMap.hasOwnProperty(entry.date)) {
-          dailyMap[entry.date] += entry.hours;
+        const entryDate = entry.date.split('T')[0]; // ISO date'i normalize et
+        if (dailyMap.hasOwnProperty(entryDate)) {
+          dailyMap[entryDate] += parseFloat(entry.hours) || 0;
         }
       });
 
@@ -69,10 +70,11 @@ const Analytics = () => {
       let klinikTotal = 0;
 
       entries.forEach(entry => {
+        const hours = parseFloat(entry.hours) || 0;
         if (temelSubjects.includes(entry.subject)) {
-          temelTotal += entry.hours;
+          temelTotal += hours;
         } else {
-          klinikTotal += entry.hours;
+          klinikTotal += hours;
         }
       });
 
@@ -84,7 +86,8 @@ const Analytics = () => {
       // 3. En çok çalışılan 5 konu
       const subjectMap = {};
       entries.forEach(entry => {
-        subjectMap[entry.subject] = (subjectMap[entry.subject] || 0) + entry.hours;
+        const hours = parseFloat(entry.hours) || 0;
+        subjectMap[entry.subject] = (subjectMap[entry.subject] || 0) + hours;
       });
 
       const topSubjectsData = Object.entries(subjectMap)
@@ -165,7 +168,7 @@ const Analytics = () => {
   }
 
   return (
-    <Box sx={{ minHeight: 'calc(100vh - 64px)', pb: { xs: 4, md: 6 }, px: { xs: 2, sm: 3, md: 4 } }}>
+    <Box sx={{ minHeight: 'calc(100vh - 64px)', pb: { xs: 8, md: 6 }, px: { xs: 2, sm: 3, md: 4 } }}>
       <Container maxWidth="xl" disableGutters sx={{ py: { xs: 2, md: 4 } }}>
         <Typography
           variant={isMobile ? 'h5' : 'h4'}
